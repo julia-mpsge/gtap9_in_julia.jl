@@ -44,19 +44,19 @@ function gtap9(data)
     gtap = MPSGEModel()
 
     @parameters(gtap, begin
-        rtfd[i=I,g=G,r=R], rtfd0[i,g,r], (description = "Firms' domestic tax rates")
-        rtfi[i=I,g=G,r=R], rtfi0[i,g,r]
-        rtf[f=F,g=G,r=R], rtf0[f,g,r]
-        rto[g=G,r=R], rto0[g,r]
-        rtxs[i=I, rr=R, r=R], rtxs0[i,rr,r]
-        rtms[i=I, rr=R, r=R], rtms0[i,rr,r]
+        rtfd[i=I,g=G,r=R],  rtfd0[i,g,r] , (description = "Firms' domestic tax rates")
+        rtfi[i=I,g=G,r=R],  rtfi0[i,g,r] , (description = "Firms' import tax rates") 
+        rtf[f=F,g=G,r=R],   rtf0[f,g,r]  , (description = "Primary factor and commodity rates taxes")
+        rto[g=G,r=R],       rto0[g,r]    , (description = "Output (or income) subsidy rates")
+        rtxs[i=I,rr=R,r=R], rtxs0[i,rr,r], (description = "Export subsidy rates")
+        rtms[i=I,rr=R,r=R], rtms0[i,rr,r], (description = "Import taxes rates")
     end)
 
     @sectors(gtap, begin
-        Y[g=G,r=R], (description = "Supply")
-        M[i=I, r=R], (description = "Imported inputs")
-        FT[f=F, r=R], (description = "Specific factor tranformation")
-        YT[j=J], (description = "Transportation Services")
+        Y[g=G,r=R]      , (description = "Supply")
+        M[i=I, r=R]     , (description = "Imported inputs")
+        FT[f=SF, r=R]   , (description = "Specific factor tranformation")
+        YT[j=J]         , (description = "Transportation Services")
     end)
 
     @commodities(gtap, begin
