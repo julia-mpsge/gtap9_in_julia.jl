@@ -7,7 +7,7 @@ data = load_data("g20_10")
 
 gtap  = gtap9(data);
 
-#fix(gtap[:RA]["mic"], data[:param][:vom]["c", "mic"])
+fix(gtap[:RA]["mic"], data[:param][:vom]["c", "mic"])
 
 solve!(gtap, cumulative_iteration_limit=0)
 
@@ -19,6 +19,48 @@ X = df |>
         :margin => ByRow(y -> abs(y) > .001)
     ) |>
     x -> sort(x, :margin)
+
+
+aggregate_countries = ["reu","mic","chn","oex","anz","lic"]
+
+margin_values = Dict(r => value(income_balance(gtap[:RA][r], virtual=true)) for r in aggregate_countries)
+
+for r in aggregate_countries
+    val = 2*(sum([vxmd[i, r,r] for i in I]) + sum(vtwr[j,i, r,r] for i in I, j in J))
+    println("$r -> $(val +margin_values[r])")
+end
+
+
+r = "mic"
+1 .+ [-rtxs0[i, r,r] for i in I] .+ [rtms0[i,r,r]*(1-rtxs0[i,r,r]) for i in I]
+[pvxmd[i, r,r] for i in I]
+
+
+P = production(gtap[:M]["oil", "mic"])
+
+
+
+
+for r in R
+    val = 2*(sum([vxmd[i, r,r] for i in I]) + sum(vtwr[j,i, r,r] for i in I, j in J))
+    println("$r -> $(val)")
+end
+
+production(M["oil", "mic"])
+
+# Solve as is
+
+solve!(gtap)
+
+df = generate_report(gtap)
+
+df |>
+    x -> subset(x,
+        :value => ByRow(==(1))
+    )
+
+
+production(gtap[:M]["oil", "mic"])
 
 
 
