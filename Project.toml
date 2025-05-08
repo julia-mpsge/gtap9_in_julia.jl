@@ -4,14 +4,15 @@ authors = ["mitchphillipson <mitch.phillipson@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 MPSGE = "d5dc2f44-7ae2-49e9-bc77-b47b6bca565d"
 
+[sources]
+MPSGE = {rev = "indexed_nests", url = "https://github.com/julia-mpsge/MPSGE.jl"}
+
 [compat]
+DataFrames = "1.7.0"
 DataStructures = "0.18.22"
 JLD2 = "0.5.13"
-
-
-[sources]
-MPSGE = {url = "https://github.com/julia-mpsge/MPSGE.jl", rev = "indexed_nests"}
