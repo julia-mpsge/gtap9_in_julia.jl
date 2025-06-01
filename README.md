@@ -28,6 +28,7 @@ To add this repository to your Julia environment run the following in the packag
 
 ```julia
 pkg> add https://github.com/julia-mpsge/gtap9_in_julia.jl
+pkg> add MPSGE#production_macro
 ```
 
 Finally, here is an example running the code:
@@ -36,7 +37,7 @@ Finally, here is an example running the code:
 using gtap9_in_julia
 
 using gtap9_in_julia.DataFrames
-using gtap9_in_julia.MPSGE
+using MPSGE
 
 data = load_data("g20_10")
 
