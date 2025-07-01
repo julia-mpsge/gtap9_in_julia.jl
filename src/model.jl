@@ -71,51 +71,50 @@ function gtap9(data)
 
 
 
-    for g∈G,r∈R
-        @production(gtap, Y[g,r], [t=0,s=0, m=>s=esub[g], va=>s=esubva[g], nest[i=I]=>m=esubdm[i]], begin
-            @output(P[g,r],         vom[g,r]   , t,       taxes = [Tax(RA[r], rto[g,r])])
-            @input(P[i=I,r],        vdfm[i,g,r], nest[i], taxes = [Tax(RA[r], rtfd[i,g,r])],    reference_price = (1+rtfd0[i,g,r]))
-            @input(PM[i=I,r],       vifm[i,g,r], nest[i], taxes = [Tax(RA[r], rtfi[i,g,r])],    reference_price = (1+rtfi0[i,g,r]))
-            @input(PS[sf=SF, g, r], vfm[sf,g,r], va,      taxes = [Tax(RA[r], rtf[sf,g,r])],    reference_price = (1+rtf0[sf,g,r]))
-            @input(PF[mf=MF, r],    vfm[mf,g,r], va,      taxes = [Tax(RA[r], rtf[mf,g,r])],    reference_price = (1+rtf0[mf,g,r]))
-        end)
-    end
+    
+    @production(gtap, Y[g=G,r=R], [t=0,s=0, m=>s=esub[g], va=>s=esubva[g], nest[i=I]=>m=esubdm[i]], begin
+        @output(P[g,r],         vom[g,r]   , t,       taxes = [Tax(RA[r], rto[g,r])])
+        @input(P[i=I,r],        vdfm[i,g,r], nest[i], taxes = [Tax(RA[r], rtfd[i,g,r])],    reference_price = (1+rtfd0[i,g,r]))
+        @input(PM[i=I,r],       vifm[i,g,r], nest[i], taxes = [Tax(RA[r], rtfi[i,g,r])],    reference_price = (1+rtfi0[i,g,r]))
+        @input(PS[sf=SF, g, r], vfm[sf,g,r], va,      taxes = [Tax(RA[r], rtf[sf,g,r])],    reference_price = (1+rtf0[sf,g,r]))
+        @input(PF[mf=MF, r],    vfm[mf,g,r], va,      taxes = [Tax(RA[r], rtf[mf,g,r])],    reference_price = (1+rtf0[mf,g,r]))
+    end)
 
 
-    for i∈I, r∈R
-        @production(gtap, M[i,r], [t=0, s=2*esubdm[i], nest[rr=R]=>s=0], begin
-            @output(PM[i,r],   vim[i,r], t)
-            @input(P[i, rr=R], vxmd[i,rr,r],   nest[rr], taxes = [Tax(RA[rr], -rtxs[i,rr,r]), Tax(RA[r], rtms[i,rr,r]*(1-rtxs[i,rr,r]))], reference_price = pvxmd[i,rr,r])
-            [@input(PT[j=J],   vtwr[j,i,rr,r], nest[rr], taxes = [Tax(RA[r],   rtms[i,rr,r])],                                            reference_price = pvtwr[i,rr,r]) for rr∈R]...
-        end)
-    end
 
-    for j∈J
-        @production(gtap, YT[j], [t=0, s=1], begin
-            @output(PT[j],   vtw[j],   t)
-            @input(P[j,r=R], vst[j,r], s)
-        end)
-    end
-
-    for sf∈SF,r∈R
-        @production(gtap, FT[sf,r], [t=etaf[sf], s=0], begin
-            @output(PS[sf,j=J,r], vfm[sf,j,r], t)
-            @input(PF[sf,r],      evom[sf,r],  s)
-        end)
-    end
+    @production(gtap, M[i=I,r=R], [t=0, s=2*esubdm[i], nest[rr=R]=>s=0], begin
+        @output(PM[i,r],   vim[i,r], t)
+        @input(P[i, rr=R], vxmd[i,rr,r],   nest[rr], taxes = [Tax(RA[rr], -rtxs[i,rr,r]), Tax(RA[r], rtms[i,rr,r]*(1-rtxs[i,rr,r]))], reference_price = pvxmd[i,rr,r])
+        [@input(PT[j=J],   vtwr[j,i,rr,r], nest[rr], taxes = [Tax(RA[r],   rtms[i,rr,r])],                                            reference_price = pvtwr[i,rr,r]) for rr∈R]...
+    end)
 
 
-    for r∈R
-        @demand(gtap, RA[r], begin
-            @final_demand(P["c", r], vom["c", r])
-            [@endowment(P[i, r], -sdd[i,r]) for i∈I]...
-            [@endowment(PM[i,r], -sdi[i,r]) for i∈I]...
-            [@endowment(PF[f,r], evom[f,r]) for f∈F]...
-            @endowment(P["g",r], -vom["g", r])
-            @endowment(P["i",r], -vom["i", r])
-            [@endowment(P["i", rnum], vb[r]) for rnum∈RNUM]...
-        end)
-    end
+    
+    @production(gtap, YT[j=J], [t=0, s=1], begin
+        @output(PT[j],   vtw[j],   t)
+        @input(P[j,r=R], vst[j,r], s)
+    end)
+
+
+    
+    @production(gtap, FT[sf=SF,r=R], [t=etaf[sf], s=0], begin
+        @output(PS[sf,j=J,r], vfm[sf,j,r], t)
+        @input(PF[sf,r],      evom[sf,r],  s)
+    end)
+
+
+
+    
+    @demand(gtap, RA[r=R], begin
+        @final_demand(P["c", r], vom["c", r])
+        @endowment(P[i=I, r], -sdd[i,r])
+        @endowment(PM[i=I,r], -sdi[i,r])
+        @endowment(PF[f=F,r], evom[f,r])
+        @endowment(P["g",r], -vom["g", r])
+        @endowment(P["i",r], -vom["i", r])
+        @endowment(P["i", rnum=RNUM], vb[r])
+    end)
+
 
     return gtap
 
