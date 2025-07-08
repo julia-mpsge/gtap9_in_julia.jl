@@ -47,6 +47,7 @@ set_value!.(gtap[:rtms], 0)
 solve!(gtap)
 
 df = generate_report(gtap)
-
 ```
+
+If the `solve!` statement returns nonsensical data (or fails), you are probably missing the [PATH license](#path-license). 
 
