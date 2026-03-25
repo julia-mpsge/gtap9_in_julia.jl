@@ -2,7 +2,7 @@
 
 1. Create a virtual environment and activate it:
 ```bash
-   python -m virtualenv venv -p 3.11
+   python -m virtualenv venv
    source venv/bin/activate  # On Windows use `./venv/Scripts/activate`
 ```
 2. Install the required packages:

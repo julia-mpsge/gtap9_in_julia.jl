@@ -10,7 +10,7 @@ JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 MPSGE = "d5dc2f44-7ae2-49e9-bc77-b47b6bca565d"
 
 [compat]
-DataFrames = "1.7.0"
-DataStructures = "0.18.22"
-JLD2 = "0.5.13"
+DataFrames = "1.8.1"
+DataStructures = "0.19.3"
+JLD2 = "0.6.3"
 MPSGE = "0.6"
