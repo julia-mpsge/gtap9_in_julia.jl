@@ -6,6 +6,13 @@ Load the GTAP data from a JLD2 file. Options are:
 - `g20_10`: GTAP9 data for the G20 countries with 10 sectors.
 - `g20_32`: GTAP9 data for the G20 countries with 32 sectors.
 - `g20_43`: GTAP9 data for the G20 countries with 43 sectors.
+
+## Returns
+
+This function returns a dictionary with two keys `:sets` and `:param`. The value
+of each is a dictionary with the sets and parameters of the GTAP9 model, 
+respectively. The sets are stored as vectors, while the parameters are stored as 
+`DefaultDict`s.
 """
 function load_data(data_name::String = "g20_43")
     out = JLD2.load_object(joinpath(@__DIR__, "data", "$data_name.jld2"))
